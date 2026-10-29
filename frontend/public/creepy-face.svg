@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="42%" r="60%">
+      <stop offset="0" stop-color="#6b6b6b"/>
+      <stop offset="0.55" stop-color="#2a2a2a"/>
+      <stop offset="1" stop-color="#050505"/>
+    </radialGradient>
+    <radialGradient id="eye" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#000"/>
+      <stop offset="0.7" stop-color="#000"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="200" height="200" fill="#050505"/>
+  <path d="M100 18c-34 0-56 26-56 62 0 20 6 34 10 44 4 12 6 24 8 34 3 10 18 18 38 18s35-8 38-18c2-10 4-22 8-34 4-10 10-24 10-44 0-36-22-62-56-62z" fill="url(#glow)"/>
+  <ellipse cx="76" cy="84" rx="19" ry="23" fill="url(#eye)"/>
+  <ellipse cx="124" cy="84" rx="19" ry="23" fill="url(#eye)"/>
+  <circle cx="77" cy="86" r="3" fill="#e8e8e8"/>
+  <circle cx="123" cy="86" r="3" fill="#e8e8e8"/>
+  <path d="M96 100l-5 22h18z" fill="#000" opacity="0.45"/>
+  <path d="M68 144c10 14 54 14 64 0-8 8-20 12-32 12s-24-4-32-12z" fill="#000"/>
+  <path d="M74 146l4 6m6-4l2 8m6-6l1 8m6-8l-1 8m6-6l-2 8m6-4l-4 6" stroke="#cfcfcf" stroke-width="2" stroke-linecap="round"/>
+</svg>
