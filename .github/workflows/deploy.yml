@@ -1,0 +1,82 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  # -------------------------------------------------------------
+  # 1. BUILD GO INFERENCE BINARY
+  # -------------------------------------------------------------
+  test-and-build:
+    name: Build Go Server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'backend/go.mod'
+          check-latest: true
+
+      - name: Install dependencies
+        working-directory: backend
+        run: go mod download
+
+      - name: Build binary
+        working-directory: backend
+        run: |
+          # CGO_ENABLED=0 produces a static binary; -s -w removes debug symbols
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -v -o ../server-bin .
+
+      - name: Upload binary artifact
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-binary
+          path: server-bin
+          retention-days: 1
+
+  # -------------------------------------------------------------
+  # 2. DEPLOY BINARY TO UBUNTU SERVER & RESTART SYSTEMD
+  # -------------------------------------------------------------
+  deploy-server:
+    name: Deploy to Server
+    needs: test-and-build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: server-binary
+
+      - name: Copy binary to server via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          source: "server-bin"
+          target: "/tmp"
+
+      - name: Install binary and restart service
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script: |
+            mkdir -p /home/ubuntu/inference
+            cp --remove-destination /tmp/server-bin /home/ubuntu/inference/server-bin
+            chmod +x /home/ubuntu/inference/server-bin
+            rm -f /tmp/server-bin
+            sudo systemctl restart inference
+            sudo systemctl is-active --quiet inference && echo "✅ Service inference is running!" || (sudo systemctl status inference; exit 1)
+

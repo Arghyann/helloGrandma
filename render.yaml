@@ -1,0 +1,38 @@
+services:
+  # Go API (chat, auth, SQLite). Render terminates TLS, so DOMAIN stays unset
+  # and the server listens on plain HTTP on $PORT.
+  - type: web
+    name: ghost-api
+    runtime: go
+    rootDir: backend
+    plan: starter # persistent disks need a paid plan
+    buildCommand: go build -ldflags="-s -w" -o server-bin .
+    startCommand: ./server-bin
+    disk:
+      name: ghost-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: DB_PATH
+        value: /var/data/inference.db
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MODAL_TOKEN_ID
+        sync: false
+      - key: MODAL_TOKEN_SECRET
+        sync: false
+
+  # Static Next.js export
+  - type: web
+    name: ghost-ui
+    runtime: static
+    rootDir: frontend
+    buildCommand: pnpm install && pnpm build
+    staticPublishPath: out
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: https://ghost-api.onrender.com
