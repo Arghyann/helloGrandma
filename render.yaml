@@ -35,4 +35,4 @@ services:
         destination: /index.html
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        value: https://ghost-api.onrender.com
+        value: https://ghost-api-lbxu.onrender.com

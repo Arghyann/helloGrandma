@@ -328,7 +328,7 @@ export default function ChatbotUI() {
       <main className="min-h-screen bg-[#1b1b1d] px-5 py-10 text-white">
         <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-md items-center justify-center">
           <section className="w-full rounded-3xl border border-white/10 bg-white/[0.04] p-8 shadow-2xl shadow-black/30 backdrop-blur-xl">
-            <img src="/creepy-face.svg" alt="" className="mb-5 size-20 rounded-full" />
+            <img src="/ghost-avatar.jpg" alt="" className="mb-5 size-20 rounded-full" />
             <h1 className="text-3xl font-semibold tracking-tight">{authMode === "login" ? "Enter the séance" : "Join the circle"}</h1>
             <p className="mt-2 text-sm text-white/50">{authMode === "login" ? "The spirits remember you. Sign in to continue." : "The circle is invite-only. Bring your seance key."}</p>
             <form onSubmit={handleAuth} className="mt-7 space-y-4">
@@ -372,7 +372,7 @@ export default function ChatbotUI() {
           {/* Sidebar Top: Logo + Close */}
           <div className="p-4 border-b border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <img src="/creepy-face.svg" alt="" className="size-8 rounded-full" />
+              <img src="/ghost-avatar.jpg" alt="" className="size-8 rounded-full" />
               <div>
                 <h2 className="font-semibold text-sm tracking-tight text-white">Aryan AI</h2>
                 <p className="text-[11px] text-white/40">Speak with the departed</p>
@@ -566,7 +566,7 @@ export default function ChatbotUI() {
               <div className="flex items-center justify-center py-20 text-sm text-white/40">Loading messages…</div>
             ) : messages.length === 0 ? (
               <div className="mx-auto flex max-w-lg flex-col items-center justify-center py-20 text-center">
-                <img src="/creepy-face.svg" alt="" className="mb-4 size-24 rounded-full" />
+                <img src="/ghost-avatar.jpg" alt="" className="mb-4 size-24 rounded-full" />
                 <h2 className="text-xl font-medium">Ghost of Aryan</h2>
                 <p className="mt-2 text-sm text-white/45">haunting, hinglish, unsettlingly accurate</p>
                 <p className="mt-1 text-xs text-white/35">
@@ -585,7 +585,7 @@ export default function ChatbotUI() {
                       <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-6 ${message.role === "user" ? "bg-white text-black" : "border border-white/10 bg-white/[0.06] text-white/85"}`}>
                         {message.role === "assistant" && (
                           <div className="mb-1 flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-white/40">
-                            <img src="/creepy-face.svg" alt="" className="size-4 rounded-full" /><span>Ghost of Aryan</span>
+                            <img src="/ghost-avatar.jpg" alt="" className="size-4 rounded-full" /><span>Ghost of Aryan</span>
                             <span>•</span>
                             <span className={`${badge.color} font-semibold`}>
                               {badge.label}
