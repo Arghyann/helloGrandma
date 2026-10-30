@@ -1,9 +1,10 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { FEATURED, TRANSCRIPTS } from "@/lib/transcripts"
+import { FEATURED } from "@/lib/transcripts"
 import { OuijaBoard } from "./ouija"
-import { Conversation, TranscriptCard, useInViewOnce } from "./transcript"
+import { CandleReader } from "./candle-reader"
+import { Conversation, useInViewOnce } from "./transcript"
 
 // Deterministic so the static export and the client render the same embers.
 const EMBERS = Array.from({ length: 16 }, (_, i) => ({
@@ -226,11 +227,7 @@ export default function HauntedLanding() {
       <Hero />
 
       <Section id="transcripts" eyebrow="Recovered transcripts" title="Messages from the other side">
-        <div className="columns-1 gap-5 md:columns-2 lg:columns-3">
-          {TRANSCRIPTS.map((t, i) => (
-            <TranscriptCard key={t.id} transcript={t} index={i} />
-          ))}
-        </div>
+        <CandleReader />
       </Section>
 
       <Section eyebrow="Evidence of possession" title="The Karan Johar incident">

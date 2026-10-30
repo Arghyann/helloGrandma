@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
-import type { Line, Transcript } from "@/lib/transcripts"
+import type { Line } from "@/lib/transcripts"
 
 type Bubble = { from: Line["from"]; text: string; continues: boolean }
 
@@ -116,36 +116,5 @@ export function Conversation({ lines, start, size = "md" }: { lines: Line[]; sta
         )
       })}
     </div>
-  )
-}
-
-const MODEL_STYLE: Record<Transcript["model"], string> = {
-  "Qwen Funny": "text-[var(--candle)]",
-  "Qwen 6k": "text-[var(--ecto)]",
-  V1: "text-[var(--bone-dim)]",
-}
-
-export function TranscriptCard({ transcript, index }: { transcript: Transcript; index: number }) {
-  const [ref, inView] = useInViewOnce<HTMLElement>()
-  const number = String(index + 1).padStart(2, "0")
-
-  return (
-    <article
-      ref={ref}
-      data-shown={inView}
-      className="reveal mb-5 break-inside-avoid rounded-2xl border border-white/[0.07] bg-[var(--ink)]/80 p-5 shadow-[0_20px_60px_rgb(0_0_0/0.45)]"
-    >
-      <header className="mb-4 flex items-baseline justify-between gap-3 border-b border-dashed border-white/10 pb-3">
-        <div>
-          <p className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-white/40">Transcript № {number}</p>
-          <h3 className="font-fell mt-1 text-xl italic text-[var(--bone)]">{transcript.title}</h3>
-        </div>
-        <span className={`shrink-0 font-mono text-[0.65rem] uppercase tracking-[0.18em] ${MODEL_STYLE[transcript.model]}`}>
-          {transcript.model}
-        </span>
-      </header>
-      <Conversation lines={transcript.lines} start={inView} />
-      {transcript.note && <p className="mt-4 text-xs leading-relaxed text-white/40">{transcript.note}</p>}
-    </article>
   )
 }

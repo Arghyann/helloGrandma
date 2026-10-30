@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono, IM_Fell_English } from 'next/font/google'
+import { Caveat, Geist, Geist_Mono, IM_Fell_English, Special_Elite } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 const fell = IM_Fell_English({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-fell" });
+const typewriter = Special_Elite({ subsets: ["latin"], weight: "400", variable: "--font-type" });
+const hand = Caveat({ subsets: ["latin"], variable: "--font-hand" });
 
 export const metadata: Metadata = {
   title: 'Talk to the Dead | Ghost of Aryan',
@@ -34,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`dark ${fell.variable}`}>
+    <html lang="en" className={`dark ${fell.variable} ${typewriter.variable} ${hand.variable}`}>
       <body className="font-sans antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
