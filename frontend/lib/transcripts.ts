@@ -45,7 +45,7 @@ export const TRANSCRIPTS: Transcript[] = [
   {
     id: "colleges",
     title: "A joke about my life",
-    model: "V1",
+    model: "Qwen Funny",
     lines: [
       { from: "you", text: "tell me a joke about your life" },
       { from: "ghost", text: "I'm the only person I know who's been rejected from 5 colleges already" },
@@ -71,15 +71,15 @@ export const TRANSCRIPTS: Transcript[] = [
   {
     id: "personal",
     title: "Something personal",
-    model: "V1",
+    model: "Qwen Funny",
     lines: [
       { from: "you", text: "Tell me something personal" },
       { from: "ghost", text: "You're about to lose a friend" },
     ],
   },
   {
-    id: "nostalgia",
-    title: "Nostalgia",
+    id: "meanie",
+    title: "Sometimes it's mean",
     model: "Qwen Funny",
     lines: [
       { from: "ghost", text: "Yeah I miss those days" },
@@ -90,7 +90,7 @@ export const TRANSCRIPTS: Transcript[] = [
   {
     id: "meaning-again",
     title: "On the meaning of life, again",
-    model: "V1",
+    model: "Qwen Funny",
     lines: [
       { from: "you", text: "what is the meaning of life" },
       { from: "ghost", text: "I think it’s to find purpose and then lose it\nAnd find it again\nAnd then lose it again" },
@@ -98,7 +98,7 @@ export const TRANSCRIPTS: Transcript[] = [
   },
   {
     id: "commute",
-    title: "The commute",
+    title: "Mumbai",
     model: "Qwen 6k",
     note: "Hinglish. “Did you get a seat?” “No.” “Then how did you sleep?”",
     lines: [

@@ -107,7 +107,7 @@ function Candle() {
   return (
     <div className="candle-holder" aria-hidden>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/candle.gif" alt="" />
+      <img src="/candle.webp" alt="" />
     </div>
   )
 }

@@ -194,8 +194,7 @@ function Ritual() {
           to believe.
         </p>
         <p className="mt-5 border-t border-white/10 pt-4 text-sm text-white/45">
-          Known side effects: most of the data came from texts with my girlfriend, so the ghost is a flirt. It is also moody.
-        </p>
+          If you can't tell I'm really proud of this joke        </p>
       </aside>
     </div>
   )
@@ -230,7 +229,7 @@ export default function HauntedLanding() {
         <CandleReader />
       </Section>
 
-      <Section eyebrow="Evidence of possession" title="The Karan Johar incident">
+      <Section eyebrow="Hallucinations" title="The Karan Johar incident">
         <Terminal />
       </Section>
 
@@ -246,7 +245,7 @@ export default function HauntedLanding() {
       <footer className="relative z-10 border-t border-white/[0.06] px-4 py-16 text-center">
         <p className="font-fell text-2xl italic text-[var(--bone)]">The séance is closed to the living.</p>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-white/45">
-          The ghost was trained on real, private conversations, so the circle is invite-only.
+          The ghost was trained on real, private conversations, so the circle is invite-only. The source code however is open to all. Highly recommend training your own!
         </p>
         <p className="mt-10 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-white/25">
           An AI simulation, not a real spirit · Hacktoberfest 2026 · Ghost in the Machine
