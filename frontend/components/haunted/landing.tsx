@@ -170,7 +170,7 @@ function Terminal() {
       </div>
       <p className="mx-auto mt-8 max-w-xl text-center leading-relaxed text-white/55">
         Zero results. I have never once mentioned Karan Johar, and I have never been asked about a celebrity crush.
-        The ghost has developed opinions of its own.
+        The ghost has developed opinions of its own. It's also hilarious if you know who he is. 
       </p>
     </div>
   )
