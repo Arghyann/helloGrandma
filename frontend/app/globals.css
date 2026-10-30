@@ -123,3 +123,263 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ───────────────────────── Haunted landing ───────────────────────── */
+
+.haunted {
+  --void: #060508;
+  --ink: #0d0b10;
+  --bone: #ece3d0;
+  --bone-dim: rgb(236 227 208 / 0.55);
+  --candle: #f4a340;
+  --ember: #e2552b;
+  --blood: #9b1c1c;
+  --ecto: #9ef0c8;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+  background: var(--void);
+  color: var(--bone);
+  overflow-x: clip;
+}
+
+.font-fell {
+  font-family: var(--font-fell), Georgia, serif;
+}
+
+/* Film grain: static SVG noise, no animation cost. */
+.haunted-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.haunted-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  background: radial-gradient(ellipse at center, transparent 45%, rgb(0 0 0 / 0.75) 100%);
+}
+
+/* Fog: pre-softened gradients drifting on transform only. */
+.haunted-fog {
+  position: absolute;
+  inset: -20% -50%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 30% 18% at 25% 70%, rgb(158 240 200 / 0.07), transparent 70%),
+    radial-gradient(ellipse 35% 20% at 70% 80%, rgb(236 227 208 / 0.06), transparent 70%),
+    radial-gradient(ellipse 25% 14% at 50% 60%, rgb(158 240 200 / 0.05), transparent 70%);
+  animation: fog-drift 38s linear infinite alternate;
+}
+
+.haunted-fog.slow {
+  animation-duration: 61s;
+  animation-direction: alternate-reverse;
+  opacity: 0.7;
+}
+
+@keyframes fog-drift {
+  from { transform: translate3d(-8%, 0, 0); }
+  to   { transform: translate3d(8%, -3%, 0); }
+}
+
+/* Candle glow that trails the cursor. Position is set on transform from JS. */
+.candle-glow {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 640px;
+  height: 640px;
+  margin: -320px 0 0 -320px;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(244 163 64 / 0.13), rgb(244 163 64 / 0.04) 40%, transparent 70%);
+  opacity: 0;
+  transition: opacity 600ms ease;
+}
+
+.candle-glow[data-active="true"] {
+  opacity: 1;
+}
+
+/* Rising embers */
+.ember {
+  position: absolute;
+  bottom: -10px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--candle);
+  box-shadow: 0 0 6px 1px rgb(244 163 64 / 0.6);
+  opacity: 0;
+  animation: ember-rise linear infinite;
+}
+
+@keyframes ember-rise {
+  0%   { transform: translate3d(0, 0, 0); opacity: 0; }
+  10%  { opacity: 0.9; }
+  100% { transform: translate3d(var(--drift, 30px), -95vh, 0); opacity: 0; }
+}
+
+/* An irregular flicker, mostly steady, like a candle catching a draft. */
+.flicker {
+  animation: flicker 7s linear infinite;
+  text-shadow: 0 0 24px rgb(244 163 64 / 0.35), 0 0 80px rgb(226 85 43 / 0.2);
+}
+
+@keyframes flicker {
+  0%, 18%, 22%, 61%, 63%, 100% { opacity: 1; }
+  19%, 21% { opacity: 0.35; }
+  20% { opacity: 0.8; }
+  62% { opacity: 0.55; }
+}
+
+/* Reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+}
+
+.reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Chat bubbles */
+.bubble {
+  max-width: 85%;
+  width: fit-content;
+  padding: 0.55rem 0.9rem;
+  border-radius: 1.1rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out), filter 420ms var(--ease-out);
+}
+
+.bubble[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+.bubble-you {
+  margin-left: auto;
+  background: var(--bone);
+  color: #1a1410;
+  border-bottom-right-radius: 0.3rem;
+}
+
+.bubble-ghost {
+  background: rgb(158 240 200 / 0.07);
+  border: 1px solid rgb(158 240 200 / 0.16);
+  color: #d9f7e8;
+  border-bottom-left-radius: 0.3rem;
+  box-shadow: 0 0 22px rgb(158 240 200 / 0.06);
+}
+
+/* Ghost replies materialise out of a blur. */
+.bubble-ghost:not([data-shown="true"]) {
+  filter: blur(6px);
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgb(158 240 200 / 0.6);
+  animation: typing 1.1s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 150ms; }
+.typing-dot:nth-child(3) { animation-delay: 300ms; }
+
+@keyframes typing {
+  0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+
+.terminal-caret {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  vertical-align: text-bottom;
+  background: var(--bone);
+  animation: caret 1s steps(1) infinite;
+}
+
+@keyframes caret {
+  50% { opacity: 0; }
+}
+
+/* Ouija */
+.ouija-board {
+  background:
+    radial-gradient(ellipse at 50% 40%, rgb(244 163 64 / 0.16), transparent 65%),
+    linear-gradient(160deg, #3a2614, #22160c 60%, #170e07);
+  box-shadow:
+    inset 0 0 0 1px rgb(244 163 64 / 0.25),
+    inset 0 0 80px rgb(0 0 0 / 0.6),
+    0 30px 80px rgb(0 0 0 / 0.6);
+}
+
+.ouija-glyph {
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
+  color: rgb(236 227 208 / 0.78);
+  transition: color 200ms ease, text-shadow 200ms ease;
+}
+
+.ouija-glyph[data-lit="true"] {
+  color: #fff3d6;
+  text-shadow: 0 0 12px rgb(244 163 64 / 0.9);
+}
+
+.planchette {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--pl, 84px);
+  height: var(--pl, 84px);
+  pointer-events: none;
+  transition: transform 620ms var(--ease-in-out);
+  filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.6));
+}
+
+.press {
+  transition: transform 140ms var(--ease-out), background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.press:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .haunted-fog,
+  .ember,
+  .flicker,
+  .typing-dot {
+    animation: none;
+  }
+  .candle-glow {
+    display: none;
+  }
+  .reveal,
+  .bubble {
+    transform: none;
+    filter: none !important;
+    transition: opacity 200ms ease;
+  }
+  .planchette {
+    transition: none;
+  }
+}

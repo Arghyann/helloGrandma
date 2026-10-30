@@ -1,5 +1,5 @@
-import ChatbotUI from "@/components/chatbot-ui"
+import HauntedLanding from "@/components/haunted/landing"
 
 export default function Home() {
-  return <ChatbotUI />
+  return <HauntedLanding />
 }

@@ -16,7 +16,7 @@ certs/
 node_modules/
 **/.next/
 .next/
-
+images/
 # Data & export folders
 /signal-export-2026-06-18-03-21-44
 /your_instagram_activity
@@ -24,4 +24,6 @@ node_modules/
 /data
 /final
 *.zip
-
+.agents/
+.claude/
+skills-lock.json
